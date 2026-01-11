@@ -18,9 +18,16 @@ class User extends Authenticatable
      * @var list<string>
      */
     protected $fillable = [
-        'name',
+        'first_name',
+        'last_name',
         'email',
         'password',
+        'is_verified_email',
+        'google_id',
+        'email_verified_at',
+        'phone_verified_at',
+        'is_kyc_verified',
+        'role_id',
     ];
 
     /**
@@ -42,7 +49,26 @@ class User extends Authenticatable
     {
         return [
             'email_verified_at' => 'datetime',
+            'phone_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_verified_email' => 'boolean',
+            'is_kyc_verified' => 'boolean',
         ];
+    }
+
+    /**
+     * Get the role associated with the user.
+     */
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
+
+    /**
+     * Get the client profile associated with the user.
+     */
+    public function client()
+    {
+        return $this->hasOne(Client::class);
     }
 }
